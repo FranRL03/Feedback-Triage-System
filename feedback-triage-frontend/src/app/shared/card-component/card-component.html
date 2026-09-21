@@ -1,0 +1,32 @@
+<div class="card mt-3 shadow" [class.border-danger]="ticket.needsReview">
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between gap-4">
+            <h6 class="card-title text-truncate-multiline">
+                {{ ticket.message }}
+            </h6>
+
+            <div class="d-flex gap-2">
+
+                <span class="badge" [ngClass]="urgencyClasses[ticket.urgency]">
+                    {{ ticket.urgency }}
+                </span>
+
+                <span class="badge" [ngClass]="sentimentClasses[ticket.sentiment]">
+                    {{ ticket.sentiment }}
+                </span>
+
+                <span class="badge" [ngClass]="statusClasses[ticket.status]">
+                    <span class="status-dot"></span>
+                    {{ ticket.status === 'CLASSIFIED' ? 'Clasificado' : 'Recibido' }}
+                </span>
+
+            </div>
+        </div>
+
+        <p class="muted">
+            {{ ticket.emailContact }} - {{ ticket.channel }} - {{ ticket.classifiedAt }}
+        </p>
+
+    </div>
+</div>

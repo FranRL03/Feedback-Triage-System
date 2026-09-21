@@ -1,0 +1,48 @@
+.logo {
+    width: 39px;
+    height: 39px;
+    background-color: #365f8f;
+    color: white;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.brand-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #172033;
+    line-height: 1.2;
+}
+
+.brand-subtitle {
+    font-size: 14px;
+    color: #637899;
+}
+
+.nav-actions {
+    border: 1px solid #dee3e8;
+    border-radius: 30px;
+    background-color: #f8f9fa;
+    overflow: hidden;
+}
+
+.nav-action {
+    border: none;
+    background: transparent;
+    padding: 11px 20px;
+    color: #637899;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+.nav-action:hover {
+    background-color: #eef1f5;
+}
+
+mat-tab-nav-panel {
+    display: none;
+}

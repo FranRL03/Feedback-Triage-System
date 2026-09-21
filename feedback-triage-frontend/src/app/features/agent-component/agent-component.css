@@ -1,0 +1,35 @@
+.nav-actions {
+    display: flex;
+    background-color: #f8f9fa;
+    border: 1px solid #dee3e8;
+    border-radius: 10px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.nav-action {
+    flex: 1;
+    border: none;
+    background: transparent;
+    border-radius: 25px;
+    padding: 9px 20px;
+    color: #637899;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.nav-action:hover {
+    background-color: #eef1f5;
+}
+
+.actions {
+    background-color: rgb(234, 233, 233);
+    border-radius: 20px;
+}
+
+.btn-check:checked + .nav-action {
+    background-color: white;
+    color: #365f8f;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}

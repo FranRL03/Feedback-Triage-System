@@ -1,0 +1,91 @@
+    <div class="mt-4 pb-5">
+        <div class="mb-5">
+            <h2>Bandeja Triage</h2>
+
+            <p class="text-muted">
+                {{totalElements}} mensajes · 2 requieren revisión humana
+            </p>
+        </div>
+
+        <div class="card shadow nav-actions flex-row p-3 mb-5 gap-5">
+
+            <div class="d-flex align-items-center">
+                <span class="text-muted pe-2">URGENCIA</span>
+
+                <div class="actions">
+
+                    <input type="radio" class="btn-check" name="urgency" id="urgency-all" autocomplete="off" checked>
+                    <label class="nav-action" for="urgency-all">
+                        Todos
+                    </label>
+
+                    <input type="radio" class="btn-check" name="urgency" id="urgency-low" autocomplete="off">
+                    <label class="nav-action" for="urgency-low">
+                        LOW
+                    </label>
+
+                    <input type="radio" class="btn-check" name="urgency" id="urgency-medium" autocomplete="off">
+                    <label class="nav-action" for="urgency-medium">
+                        MEDIUM
+                    </label>
+
+                    <input type="radio" class="btn-check" name="urgency" id="urgency-high" autocomplete="off">
+                    <label class="nav-action" for="urgency-high">
+                        HIGH
+                    </label>
+
+                    <input type="radio" class="btn-check" name="urgency" id="urgency-critical" autocomplete="off">
+                    <label class="nav-action" for="urgency-critical">
+                        CRITICAL
+                    </label>
+
+                </div>
+            </div>
+
+
+            <div class="d-flex align-items-center">
+                <span class="text-muted pe-2">ESTADO</span>
+
+                <div class="actions">
+
+                    <input type="radio" class="btn-check" name="status" id="status-all" autocomplete="off" checked>
+                    <label class="nav-action" for="status-all">
+                        Todos
+                    </label>
+
+                    <input type="radio" class="btn-check" name="status" id="status-received" autocomplete="off">
+                    <label class="nav-action" for="status-received">
+                        Recibido
+                    </label>
+
+                    <input type="radio" class="btn-check" name="status" id="status-classified" autocomplete="off">
+                    <label class="nav-action" for="status-classified">
+                        Clasificado
+                    </label>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div>
+            @for (ticket of tickets; track ticket.feedbackId) {
+            <app-card-component [ticket]="ticket"></app-card-component>
+            } @empty {
+            <p>El array de tickets está vacío en la vista.</p>
+            }
+        </div>
+
+        <div class="d-flex justify-content-center pt-3">
+        <ngb-pagination 
+            [(page)]="pageNumber"
+            [collectionSize]="totalElements"
+            [pageSize]="pageSize"
+            [maxSize]="numberOfElements" 
+            [rotate]="true"
+            [boundaryLinks]="true"
+            (pageChange)="ngOnInit()" 
+            aria-label="Default pagination">
+        </ngb-pagination>
+    </div>
+    </div>

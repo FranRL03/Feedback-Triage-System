@@ -1,0 +1,68 @@
+.text-truncate-multiline {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 6px 12px;
+
+    border-radius: 20px;
+
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.badge-critical, .badge-negative {
+    color: #dc3545;
+    background-color: #fff0f1;
+    border: 1px solid #ffb8be;
+}
+
+.badge-high { 
+    background-color: #FED7AA; 
+    color: #C2410C;
+    border: 1px solid #ffb8be; 
+}
+
+.badge-medium {
+    background-color: #FEF2CC;
+    color: #AA7E00;
+    border: 1px solid #ffe385;
+}
+
+.badge-neutral, .badge-low {
+    color: gray;
+    background-color: #F4F6F8;
+    border: 1px solid #dee3e8;
+}
+
+.badge-positive {
+    color: #1A8A51;
+    background-color: #E1F7E7;
+    border: 1px solid #a7f5bd;
+}
+
+.badge-classified {
+    color: gray;
+    background-color: #ffffff;
+    border: 1px solid #E0E3E7;
+}
+
+.status-dot {
+    background-color: #198754;
+    width: 8px;
+    height: 8px;
+}
