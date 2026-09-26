@@ -1,0 +1,221 @@
+.status-card {
+    animation: card-enter 0.5s ease-out both;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 11px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    color: #1a8a51;
+    background: #e1f7e7;
+    border: 1px solid rgba(26, 138, 80, 0.35);
+}
+
+.status-timeline {
+    list-style: none;
+    margin: 0 0 2rem;
+    padding: 0;
+}
+
+.status-step {
+    display: flex;
+    gap: 1rem;
+    position: relative;
+}
+
+.step-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.step-circle {
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    position: relative;
+    transition:
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.completed .step-circle {
+    color: #ffffff;
+    background: #1a8a51;
+    border: 1px solid #1a8a51;
+
+    box-shadow: 0 0 0 5px #e1f7e7;
+}
+
+.completed .step-circle svg {
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    animation: check-in 0.45s ease-out 0.2s both;
+}
+
+.processing .step-circle {
+    background: #ffffff;
+    border: 2px solid #d9dee7;
+
+    box-shadow: 0 0 0 5px #f4f6f8;
+}
+
+.processing-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #1a8a51;
+    animation: processing-pulse 1.4s ease-in-out infinite;
+}
+
+.step-line {
+    width: 2px;
+    flex: 1;
+    margin: 7px 0;
+    min-height: 42px;
+    background: linear-gradient(
+        to bottom,
+        #1a8a51 0%,
+        rgba(26, 138, 81, 0.25) 100%
+    );
+    transform-origin: top;
+    animation: line-grow 0.5s ease-out 0.35s both;
+}
+
+.step-content {
+    padding-bottom: 1.75rem;
+}
+
+.status-step:last-child .step-content {
+    padding-bottom: 0;
+}
+
+.step-title {
+    margin: 2px 0 4px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #20242b;
+}
+
+.step-description {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: #737b87;
+}
+
+.status-button {
+    margin-top: 1.5rem;
+    padding: 10px 18px;
+    border-radius: 10px;
+    border-color: #20242b;
+    font-weight: 600;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.status-button:hover {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 6px 16px rgba(13, 110, 253, 0.2);
+}
+
+.status-button:active {
+    transform: translateY(0);
+}
+
+@keyframes card-enter {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+@keyframes badge-pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(26, 138, 80, 0.35);
+    }
+
+    70% {
+        box-shadow: 0 0 0 6px rgba(26, 138, 80, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(26, 138, 80, 0);
+    }
+}
+
+
+@keyframes processing-pulse {
+    0%,
+    100% {
+        transform: scale(0.75);
+        opacity: 0.45;
+    }
+
+    50% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
+@keyframes check-in {
+    from {
+        opacity: 0;
+        transform: scale(0.4);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+@keyframes line-grow {
+    from {
+        transform: scaleY(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: scaleY(1);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .status-wrapper {
+        padding: 1.5rem 0.75rem;
+    }
+
+    .status-card .card-body {
+        padding: 1.5rem !important;
+    }
+
+    .step-description {
+        font-size: 13px;
+    }
+}
+

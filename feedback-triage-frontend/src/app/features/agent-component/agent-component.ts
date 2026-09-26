@@ -3,6 +3,8 @@ import { Content } from '../../core/models/FeedbackResponse';
 import { FeedbackApiService } from '../../service/feedback-api-service';
 import { WebSocketService } from '../../service/websocket';
 import { FeedbackClassificationNotification } from '../../core/models/FeedbackClassificationNotification';
+import { UrgencyLevel } from '../../core/enums/UrgencyLevel';
+import { FeedbackStatus } from '../../core/enums/FeedbackStatus';
 
 @Component({
   selector: 'app-agent-component',
@@ -12,11 +14,19 @@ import { FeedbackClassificationNotification } from '../../core/models/FeedbackCl
 })
 export class AgentComponent implements OnInit {
 
+  protected readonly UrgencyLevel = UrgencyLevel;
+  protected readonly FeedbackStatus = FeedbackStatus;
+
   tickets: Content[] = [];
   pageSize = 0;
   numberOfElements = 0;
   totalElements: number = 0;
   pageNumber: number = 1;
+
+  needReviews: number = 0;
+
+  selectedUrgency?: UrgencyLevel;
+  selectedStatus?: FeedbackStatus;
 
   constructor(
     private service: FeedbackApiService,
@@ -30,12 +40,14 @@ export class AgentComponent implements OnInit {
   }
 
   loadFeedback(): void {
-    this.service.getFeedbacks(this.pageNumber - 1).subscribe({
+    this.service.getFeedbacks(this.pageNumber - 1, this.selectedUrgency, this.selectedStatus).subscribe({
       next: response => {
         this.tickets = response.content;
         this.pageSize = response.size;
         this.totalElements = response.totalElements;
         this.numberOfElements = response.numberOfElements;
+        this.needReviews = response.content.filter(
+          t => t.needsReview).length;
         this.cdr.detectChanges();
       },
       error: (err) => {
@@ -44,24 +56,28 @@ export class AgentComponent implements OnInit {
     });
   }
 
-  private listenForNewClassifications(): void {
-  this.wsService.connectToDashboard().subscribe({
-    next: (notification: FeedbackClassificationNotification) => {
-      const existingIndex = this.tickets.findIndex(t => t.feedbackId === notification.feedbackId);
+  onFilterChange(): void {
+    this.pageNumber = 1;
+    this.loadFeedback();
+  }
 
-      if (existingIndex !== -1) {
-        // Ya estaba en la lista (llegó como RECEIVED antes) → lo actualizamos in-place
-        this.tickets[existingIndex] = {
-          ...this.tickets[existingIndex],
-          ...notification,
-          status: 'CLASSIFIED' as any
-        };
-      } else {
-        // Ticket completamente nuevo, no estaba en la carga inicial → recargamos
-        this.loadFeedback();
-      }
-    },
-    error: (err) => console.error('Error en WebSocket dashboard', err)
-  });
-}
+  private listenForNewClassifications(): void {
+    this.wsService.connectToDashboard().subscribe({
+      next: (notification: FeedbackClassificationNotification) => {
+        const existingIndex = this.tickets.findIndex(t => t.feedbackId === notification.feedbackId);
+
+        if (existingIndex !== -1) {
+          this.tickets[existingIndex] = {
+            ...this.tickets[existingIndex],
+            ...notification,
+            status: 'CLASSIFIED' as any
+          };
+          this.cdr.detectChanges();
+        } else {
+          this.loadFeedback();
+        }
+      },
+      error: (err) => console.error('Error en WebSocket dashboard', err)
+    });
+  }
 }

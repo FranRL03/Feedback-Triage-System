@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Channel } from '../../core/enums/Channel';
 import { FeedbackApiService } from '../../service/feedback-api-service';
 import { FeedbackSubmissionRequest } from '../../core/models/FeedbackSubmissionRequest';
@@ -26,7 +26,7 @@ export class FeedbackComponent {
 
   status: FeedbackStatus = FeedbackStatus.RECEIVED;
 
-  constructor(private service: FeedbackApiService, private wsService: WebSocketService) { }
+  constructor(private service: FeedbackApiService, private wsService: WebSocketService, private cdr: ChangeDetectorRef) { }
 
   onSubmit(): void {
     const request: FeedbackSubmissionRequest = {
@@ -40,19 +40,31 @@ export class FeedbackComponent {
         this.feedbackId = response.feedbackId;
         this.submitted = true;
         this.status = FeedbackStatus.RECEIVED;
+        this.cdr.detectChanges();
         this.listenForClassification(response.feedbackId);
       },
       error: (err) => {
         console.error('Error enviando feedback', err);
         this.errorMessage = 'No se pudo enviar tu feedback. Inténtalo de nuevo.';
+        this.cdr.detectChanges();
       }
     });
+  }
+
+  onReset(): void {
+    this.submitted = false;
+    this.message = '';
+    this.emailContact = '';
+    this.channel = Channel.WEB;
+    this.status = FeedbackStatus.RECEIVED;
+    this.feedbackId = null;
   }
 
   private listenForClassification(feedbackId: string): void {
     this.wsService.connectToFeedback(feedbackId).subscribe({
       next: (notification: FeedbackStatusNotification) => {
         this.status = notification.status;
+        this.cdr.detectChanges();
       },
       error: (err) => console.error('Error en WebSocket', err)
     });

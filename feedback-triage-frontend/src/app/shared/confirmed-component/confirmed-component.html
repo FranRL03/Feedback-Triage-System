@@ -1,0 +1,74 @@
+<div class="mt-5">
+    <div class="card w-50 mx-auto rounded-4 shadow-lg border-0 status-card">
+        <div class="card-body p-4 p-md-5">
+
+            <span class="status-badge mb-4 rounded-4">
+                Mensaje recibido
+            </span>
+
+            <h5 class="card-title fw-semibold mb-2">
+                Gracias, ya estamos en ello
+            </h5>
+
+            <p class="card-text text-muted mb-4">
+                Tu mensaje está en la cola de triage. No necesitas hacer nada más.
+            </p>
+
+            <ol class="status-timeline">
+                <li class="status-step completed">
+
+                    <div class="step-indicator">
+                        <span class="step-circle">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M5 12.5L9.5 17L19 7" />
+                            </svg>
+                        </span>
+
+                        <span class="step-line"></span>
+                    </div>
+
+                    <div class="step-content">
+                        <p class="step-title">Recibido</p>
+                        <p class="step-description">
+                            Tu mensaje ha llegado a nuestro sistema de soporte.
+                        </p>
+                    </div>
+
+                </li>
+
+                <li class="status-step" [class.completed]="isClassified" [class.processing]="!isClassified">
+
+                    <div class="step-indicator">
+                        <span class="step-circle">
+                             @if (isClassified) {
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M5 12.5L9.5 17L19 7" />
+                                </svg>
+                            } @else {
+                                <span class="processing-dot"></span>
+                            }
+                        </span>
+                    </div>
+
+                    <div class="step-content">
+                        <p class="step-title">Clasificado</p>
+                        <p class="step-description">
+                            @if (isClassified) {
+                                Urgencia y categoría asignadas correctamente.
+                            } @else {
+                                Analizando el contenido para asignar urgencia y categoría…
+                            }
+                        </p>
+                    </div>
+
+                </li>
+
+            </ol>
+
+            <button type="button" class="btn status-button" (click)="onBackToHome()">
+                Volver al inicio
+            </button>
+
+        </div>
+    </div>
+</div>

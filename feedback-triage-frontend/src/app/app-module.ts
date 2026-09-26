@@ -11,11 +11,20 @@ import { AgentComponent } from './features/agent-component/agent-component';
 import { CardComponent } from './shared/card-component/card-component';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
+import { provideHttpClient } from '@angular/common/http';
+import { ConfirmedComponent } from './shared/confirmed-component/confirmed-component';
 
 @NgModule({
-  declarations: [App, HeaderComponent, FeedbackComponent, AgentComponent, CardComponent],
+  declarations: [
+    App,
+    HeaderComponent,
+    FeedbackComponent,
+    AgentComponent,
+    CardComponent,
+    ConfirmedComponent,
+  ],
   imports: [BrowserModule, AppRoutingModule, NgbModule, MatTabsModule, MatIconModule, FormsModule],
-  providers: [provideBrowserGlobalErrorListeners()],
+  providers: [provideBrowserGlobalErrorListeners(), provideHttpClient()],
   bootstrap: [App],
 })
 export class AppModule {}

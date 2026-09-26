@@ -1,83 +1,70 @@
 <div class="mt-4 pb-5">
 
     @if (!submitted) {
-    <div class="text-center mb-5">
-        <h2>¿Cómo podemos ayudarte?</h2>
-        <p class="text-muted">
-            Escríbenos con tus palabras. Clasificamos tu mensaje automáticamente y lo dirigimos
-            a la persona adecuada del equipo de soporte.
-        </p>
-    </div>
+        <div class="text-center mb-5">
+            <h2>¿Cómo podemos ayudarte?</h2>
+            <p class="text-muted">
+                Escríbenos con tus palabras. Clasificamos tu mensaje automáticamente y lo dirigimos
+                a la persona adecuada del equipo de soporte.
+            </p>
+        </div>
 
-    <div class="card shadow mx-auto" style="max-width: 750px;">
-        <div class="card-body p-4">
+        <div class="card shadow mx-auto" style="max-width: 750px;">
+            <div class="card-body p-4">
 
-            <div class="mb-4">
-                <label for="message" class="form-label fw-semibold">Tu mensaje</label>
-                <textarea id="message" class="form-control" rows="6"
-                    placeholder="Describe qué ha ocurrido, desde cuándo y a quién afecta..." [(ngModel)]="message"
-                    name="message"></textarea>
-            </div>
-
-            <div class="row g-4 mb-4">
-                <div class="col-md-6">
-                    <label for="email" class="form-label fw-semibold">Email de contacto</label>
-                    <input type="email" id="email" class="form-control" placeholder="tu@empresa.com"
-                        [(ngModel)]="emailContact" name="emailContact">
+                <div class="mb-4">
+                    <label for="message" class="form-label fw-semibold">Tu mensaje</label>
+                    <textarea id="message" class="form-control" rows="6"
+                        placeholder="Describe qué ha ocurrido, desde cuándo y a quién afecta..." [(ngModel)]="message"
+                        name="message"></textarea>
                 </div>
 
-                <div class="col-md-6">
-                    <label class="form-label fw-semibold">Canal</label>
-                    <div class="w-100 nav-actions" role="group">
+                <div class="row g-4 mb-4">
+                    <div class="col-md-6">
+                        <label for="email" class="form-label fw-semibold">Email de contacto</label>
+                        <input type="email" id="email" class="form-control" placeholder="tu@empresa.com"
+                            [(ngModel)]="emailContact" name="emailContact">
+                    </div>
 
-                        <input type="radio" class="btn-check" id="web" autocomplete="off" name="channel"
-                            [value]="Channel.WEB" [(ngModel)]="channel">
-                        <label class="nav-action" for="web">Web</label>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Canal</label>
+                        <div class="w-100 nav-actions" role="group">
 
-                        <input type="radio" class="btn-check" id="emailChannel" autocomplete="off" name="channel"
-                            [value]="Channel.EMAIL" [(ngModel)]="channel">
-                        <label class="nav-action" for="emailChannel">Email</label>
+                            <input type="radio" class="btn-check" id="web" autocomplete="off" name="channel"
+                                [value]="Channel.WEB" [(ngModel)]="channel">
+                            <label class="nav-action" for="web">Web</label>
 
-                        <input type="radio" class="btn-check" id="whatsapp" autocomplete="off" name="channel"
-                            [value]="Channel.WHATSAPP" [(ngModel)]="channel">
-                        <label class="nav-action" for="whatsapp">WhatsApp</label>
+                            <input type="radio" class="btn-check" id="emailChannel" autocomplete="off" name="channel"
+                                [value]="Channel.EMAIL" [(ngModel)]="channel">
+                            <label class="nav-action" for="emailChannel">Email</label>
 
+                            <input type="radio" class="btn-check" id="whatsapp" autocomplete="off" name="channel"
+                                [value]="Channel.WHATSAPP" [(ngModel)]="channel">
+                            <label class="nav-action" for="whatsapp">WhatsApp</label>
+
+                        </div>
                     </div>
                 </div>
+
+                @if (errorMessage) {
+                    <p class="text-danger text-center">{{ errorMessage }}</p>
+                }
+
+                <div class="d-grid">
+                    <button type="button" class="btn btn-primary btn-lg" (click)="onSubmit()">
+                        Enviar feedback
+                    </button>
+                </div>
+
+                <p class="text-center text-muted mt-3 mb-0">
+                    Recibirás la confirmación en pantalla al instante.
+                </p>
+
             </div>
-
-            @if (errorMessage) {
-            <p class="text-danger text-center">{{ errorMessage }}</p>
-            }
-
-            <div class="d-grid">
-                <button type="button" class="btn btn-primary btn-lg" (click)="onSubmit()">
-                    Enviar feedback
-                </button>
-            </div>
-
-            <p class="text-center text-muted mt-3 mb-0">
-                Recibirás la confirmación en pantalla al instante.
-            </p>
-
         </div>
-    </div>
     } @else {
-    @if (submitted) {
-    <div class="text-center mt-5">
-        <h3>¡Gracias por tu feedback!</h3>
-        <p class="text-muted">Tu ticket ha sido recibido.</p>
-
-        <div class="d-flex justify-content-center gap-3 mt-4">
-            <div class="step" [class.active]="true">
-                ✓ Recibido
-            </div>
-            <div class="step" [class.active]="status === 'CLASSIFIED'">
-                {{ status === 'CLASSIFIED' ? '✓' : '⏳' }} Clasificado
-            </div>
-        </div>
-    </div>
-    }
+    
+        <app-confirmed-component [status]="status" (reset)="onReset()"></app-confirmed-component>
     }
 
 </div>

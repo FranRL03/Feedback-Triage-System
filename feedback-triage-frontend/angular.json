@@ -40,7 +40,7 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
-            "polyfills": ["@angular/localize/init"]
+            "polyfills": ["zone.js", "@angular/localize/init"]
           },
           "configurations": {
             "production": {

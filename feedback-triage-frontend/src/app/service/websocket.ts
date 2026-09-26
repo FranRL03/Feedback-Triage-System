@@ -7,7 +7,7 @@ export class WebSocketService {
 
     connectToFeedback(feedbackId: string): Observable<any> {
         return new Observable(observer => {
-            const socket = new WebSocket(`${environment.wsUrl}/ws/feedback/${feedbackId}`);
+            const socket = new WebSocket(`${environment.wsUrl}ws/feedback/${feedbackId}`);
 
             socket.onmessage = (event) => {
                 observer.next(JSON.parse(event.data))
@@ -28,7 +28,7 @@ export class WebSocketService {
 
     connectToDashboard(): Observable<any> {
         return new Observable(observer => {
-            const socket = new WebSocket(`${environment.wsUrl}/ws/dashboard`);
+            const socket = new WebSocket(`${environment.wsUrl}ws/dashboard`);
 
             socket.onmessage = (event) => {
                 observer.next(JSON.parse(event.data));
