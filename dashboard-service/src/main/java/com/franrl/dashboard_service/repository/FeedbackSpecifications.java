@@ -1,4 +1,4 @@
-package com.franrl.dashboard_service.service;
+package com.franrl.dashboard_service.repository;
 
 import com.franrl.dashboard_service.entity.FeedbackEntity;
 import com.franrl.dashboard_service.entity.FeedbackStatus;

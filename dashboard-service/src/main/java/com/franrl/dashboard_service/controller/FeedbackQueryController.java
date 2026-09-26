@@ -1,13 +1,17 @@
 package com.franrl.dashboard_service.controller;
 
 import com.franrl.dashboard_service.dto.FeedbackResponse;
+import com.franrl.dashboard_service.entity.FeedbackStatus;
 import com.franrl.dashboard_service.service.FeedBackService;
+import com.franrl.enums.UrgencyLevel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,8 +24,15 @@ public class FeedbackQueryController {
         this.feedbackService = feedbackService;
     }
 
-    @GetMapping("/")
+    /*@GetMapping("/")
     public Page<FeedbackResponse> getFeedbacks (@PageableDefault(page=0, size =4)Pageable pageable) {
         return feedbackService.getFeedbacks(pageable);
+    } */
+
+    @GetMapping("/")
+    public Page<FeedbackResponse> getFeedbacks(@RequestParam(required = false) UrgencyLevel urgency,
+            @RequestParam(required = false) FeedbackStatus status, @PageableDefault(page = 0, size = 4,
+                    sort = "creationDate", direction = Sort.Direction.DESC) Pageable pageable) {
+        return feedbackService.getFeedbacks(urgency, status, pageable);
     }
 }
