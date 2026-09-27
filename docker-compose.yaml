@@ -38,6 +38,68 @@ services:
     volumes:
       - dev-pgdata:/var/lib/postgresql/data
 
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: proy-pgadmin
+    restart: always
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+  ingestion-service:
+    build:
+      context: .
+      dockerfile: ingestion-service/Dockerfile
+    container_name: ingestion-service
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+    depends_on:
+      - kafka
+
+  ai-classifier-service:
+    build:
+      context: .
+      dockerfile: ai-classifier-service/Dockerfile
+    container_name: ai-classifier-service
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      GOOGLE_API_KEY: ${GOOGLE_API_KEY}
+    depends_on:
+      - kafka
+
+  dashboard-service:
+    build:
+      context: .
+      dockerfile: dashboard-service/Dockerfile
+    container_name: dashboard-service
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      SPRING_DATASOURCE_URL: jdbc:postgresql://pg_develop:5432/feedback-system
+    depends_on:
+      - kafka
+      - pg_develop
+
+  frontend:
+    build:
+      context: ./feedback-triage-frontend
+      dockerfile: Dockerfile
+    container_name: feedback-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - ingestion-service
+      - dashboard-service
+
 volumes:
   dev-pgdata:
   pgadmin-data:
